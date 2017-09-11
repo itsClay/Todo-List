@@ -82,15 +82,24 @@ var _store = __webpack_require__(191);
 
 var _store2 = _interopRequireDefault(_store);
 
+var _todo_actions = __webpack_require__(209);
+
+var _app = __webpack_require__(305);
+
+var _app2 = _interopRequireDefault(_app);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 document.addEventListener('DOMContentLoaded', function () {
   var root = document.getElementById('root');
-  _reactDom2.default.render(_react2.default.createElement(
-    'h1',
-    null,
-    'Todos App'
-  ), root);
+
+  var store = (0, _store2.default)();
+  window.store = store;
+
+  window.receiveTodo = _todo_actions.receiveTodo;
+  window.receiveTodos = _todo_actions.receiveTodos;
+
+  _reactDom2.default.render(_react2.default.createElement(_app2.default, null), root);
 });
 
 /***/ }),
@@ -23508,23 +23517,209 @@ exports.default = rootReducer;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var initialState = [];
+
+var _todo_actions = __webpack_require__(209);
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+// import merge from 'lodash/merge';
+
+var initialState = {
+  1: {
+    id: 1,
+    title: 'wash car',
+    body: 'with soap',
+    done: false
+  },
+  2: {
+    id: 2,
+    title: 'wash dog',
+    body: 'with shampoo',
+    done: true
+  }
+};
 
 var todosReducer = function todosReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
   var action = arguments[1];
 
+  Object.freeze(state);
+
   switch (action.type) {
-    // case RECEIVE_TODOS:
-    //  return [...state, action.]
-    // case RECEIVE_TODO:
-    //
+    case _todo_actions.RECEIVE_TODOS:
+      var newTodosState = {};
+      action.todos.forEach(function (todo) {
+        // re assign our state with a new one for every todo
+        newTodosState = Object.assign(newTodosState, _defineProperty({}, todo.id, todo));
+      });
+      return newTodosState;
+    case _todo_actions.RECEIVE_TODO:
+      var newTodo = _defineProperty({}, action.todo.id, action.todo);
+      var newState = Object.assign({}, state, newTodo);
+      return newState;
     default:
       return state;
   }
 };
 
 exports.default = todosReducer;
+
+/***/ }),
+/* 209 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var RECEIVE_TODOS = exports.RECEIVE_TODOS = 'RECEIVE_TODOS';
+var RECEIVE_TODO = exports.RECEIVE_TODO = 'RECEIVE_TODO';
+
+var receiveTodos = exports.receiveTodos = function receiveTodos(todos) {
+  return {
+    type: RECEIVE_TODOS,
+    todos: todos
+  };
+};
+
+var receiveTodo = exports.receiveTodo = function receiveTodo(todo) {
+  return {
+    type: RECEIVE_TODO,
+    todo: todo
+  };
+};
+
+/***/ }),
+/* 210 */,
+/* 211 */,
+/* 212 */,
+/* 213 */,
+/* 214 */,
+/* 215 */,
+/* 216 */,
+/* 217 */,
+/* 218 */,
+/* 219 */,
+/* 220 */,
+/* 221 */,
+/* 222 */,
+/* 223 */,
+/* 224 */,
+/* 225 */,
+/* 226 */,
+/* 227 */,
+/* 228 */,
+/* 229 */,
+/* 230 */,
+/* 231 */,
+/* 232 */,
+/* 233 */,
+/* 234 */,
+/* 235 */,
+/* 236 */,
+/* 237 */,
+/* 238 */,
+/* 239 */,
+/* 240 */,
+/* 241 */,
+/* 242 */,
+/* 243 */,
+/* 244 */,
+/* 245 */,
+/* 246 */,
+/* 247 */,
+/* 248 */,
+/* 249 */,
+/* 250 */,
+/* 251 */,
+/* 252 */,
+/* 253 */,
+/* 254 */,
+/* 255 */,
+/* 256 */,
+/* 257 */,
+/* 258 */,
+/* 259 */,
+/* 260 */,
+/* 261 */,
+/* 262 */,
+/* 263 */,
+/* 264 */,
+/* 265 */,
+/* 266 */,
+/* 267 */,
+/* 268 */,
+/* 269 */,
+/* 270 */,
+/* 271 */,
+/* 272 */,
+/* 273 */,
+/* 274 */,
+/* 275 */,
+/* 276 */,
+/* 277 */,
+/* 278 */,
+/* 279 */,
+/* 280 */,
+/* 281 */,
+/* 282 */,
+/* 283 */,
+/* 284 */,
+/* 285 */,
+/* 286 */,
+/* 287 */,
+/* 288 */,
+/* 289 */,
+/* 290 */,
+/* 291 */,
+/* 292 */,
+/* 293 */,
+/* 294 */,
+/* 295 */,
+/* 296 */,
+/* 297 */,
+/* 298 */,
+/* 299 */,
+/* 300 */,
+/* 301 */,
+/* 302 */,
+/* 303 */,
+/* 304 */,
+/* 305 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(82);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(98);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var App = function App(todos) {
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(
+      'h1',
+      null,
+      'CLAYS TODOS'
+    )
+  );
+};
+
+exports.default = App;
 
 /***/ })
 /******/ ]);
